@@ -163,14 +163,14 @@ class BankDataGen:
         return df
 
 
-class ManufacturingDataGen:
+class CarSalesDataGen:
 
     '''Class to Generate Manufacturing Data'''
 
     def __init__(self, spark):
         self.spark = spark
 
-    def transactionsDataGen(self, shuffle_partitions_requested = 5, partitions_requested = 5, data_rows = 2000):
+    def salesDataGen(self, shuffle_partitions_requested = 5, partitions_requested = 5, data_rows = 2000):
 
         # setup use of Faker
         FakerTextUS = FakerTextFactory(locale=['en_US'], providers=[bank])
@@ -179,23 +179,25 @@ class ManufacturingDataGen:
         self.spark.conf.set("spark.sql.shuffle.partitions", shuffle_partitions_requested)
 
         fakerDataspec = (DataGenerator(self.spark, rows=data_rows, partitions=partitions_requested)
-                    .withColumn("credit_card_number", "long", minValue=3674567891195999, maxValue=3674567891198000, uniqueValues=2000, step=1)
-                    .withColumn("credit_card_provider", text=FakerTextUS("credit_card_provider") )
-                    .withColumn("transaction_type", "string", values=["purchase", "cash_advance"], random=True, weights=[9, 1])
+                    .withColumn("bank_account_number", "long", minValue=3674567891195999, maxValue=3674567891198000, uniqueValues=2000, step=1)
+                    .withColumn("transaction_type", "string", values=["whole purchase", "car loan"], random=True, weights=[1, 9])
                     .withColumn("event_ts", "timestamp", begin="2023-01-01 01:00:00",end="2023-12-31 23:59:00",interval="1 minute", random=True)
                     .withColumn("longitude", "float", minValue=-125, maxValue=-66.9345, random=True)
                     .withColumn("latitude", "float", minValue=24.3963, maxValue=49.3843, random=True)
-                    .withColumn("transaction_currency", values=["USD", "EUR", "KWD", "BHD", "GBP", "CHF", "MEX"])
-                    .withColumn("transaction_amount", "decimal", minValue=0.01, maxValue=30000, random=True)
+                    .withColumn("transaction_currency", values=["USD"])
+                    .withColumn("transaction_amount", "decimal", minValue=12500, maxValue=190000, random=True)
+                    .withColumn("car_brand", "string", values=["Vireon Motors", "Aetherion Automotive", "Unique Motors Ltd", "Gravari", "American Wagons"], random=True, weights=[2, 2, 2, 2, 2])
+                    .withColumn("vehicle_model_name", "string", values=["Altara", "Noventis", "Crestline", "Quessa", "Stratos X", "Qavac", "Veltrix", "Ironveil", "Roqline", "Zenthra"], random=True, weights=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+                    .withColumn("vehicle_type", "string", values=["Sedan", "SUV/Crossover", "EV", "Truck/Utility", "Sports/Performance"], random=True, weights=[2, 2, 2, 2, 2])
                     )
 
         df = fakerDataspec.build()
 
-        df = df.withColumn("credit_card_number", df["credit_card_number"].cast("string"))
+        df = df.withColumn("bank_account_number", df["bank_account_number"].cast("string"))
 
         return df
 
-    def transactionsBatchDataGen(self, shuffle_partitions_requested = 1, partitions_requested = 1, data_rows = 100):
+    def salesBatchDataGen(self, shuffle_partitions_requested = 1, partitions_requested = 1, data_rows = 100):
 
         # setup use of Faker
         FakerTextUS = FakerTextFactory(locale=['en_US'], providers=[bank])
@@ -204,24 +206,26 @@ class ManufacturingDataGen:
         self.spark.conf.set("spark.sql.shuffle.partitions", shuffle_partitions_requested)
 
         fakerDataspec = (DataGenerator(self.spark, rows=data_rows, partitions=partitions_requested)
-                    .withColumn("credit_card_number", "long", minValue=3674567891195999, maxValue=3674567891197999, uniqueValues=100, step=1) #text=FakerTextUS("credit_card_number")
-                    .withColumn("credit_card_provider", text=FakerTextUS("credit_card_provider"))
-                    .withColumn("transaction_type", "string", values=["purchase", "cash_advance"], random=True, weights=[9, 1])
+                    .withColumn("bank_account_number", "long", minValue=3674567891195999, maxValue=3674567891197999, uniqueValues=100, step=1) #text=FakerTextUS("credit_card_number")
+                    .withColumn("transaction_type", "string", values=["whole purchase", "car loan"], random=True, weights=[1, 9])
                     .withColumn("event_ts", "timestamp", begin="2023-01-01 01:00:00",end="2023-12-31 23:59:00",interval="1 minute", random=True)
                     .withColumn("longitude", "float", minValue=-125, maxValue=-66.9345, random=True)
                     .withColumn("latitude", "float", minValue=24.3963, maxValue=49.3843, random=True)
-                    .withColumn("transaction_currency", values=["USD", "EUR", "KWD", "BHD", "GBP", "CHF", "MEX"])
-                    .withColumn("transaction_amount", "decimal", minValue=0.01, maxValue=30000, random=True)
+                    .withColumn("transaction_currency", values=["USD"])
+                    .withColumn("transaction_amount", "decimal", minValue=12500, maxValue=190000, random=True)
+                    .withColumn("car_brand", "string", values=["Vireon Motors", "Aetherion Automotive", "Unique Motors Ltd", "Gravari", "American Wagons"], random=True, weights=[2, 2, 2, 2, 2])
+                    .withColumn("vehicle_model_name", "string", values=["Altara", "Noventis", "Crestline", "Quessa", "Stratos X", "Qavac", "Veltrix", "Ironveil", "Roqline", "Zenthra"], random=True, weights=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+                    .withColumn("vehicle_type", "string", values=["Sedan", "SUV/Crossover", "EV", "Truck/Utility", "Sports/Performance"], random=True, weights=[2, 2, 2, 2, 2])
                     )
 
         df = fakerDataspec.build()
-        df = df.withColumn("credit_card_number", df["credit_card_number"].cast("string"))
-        df = df.dropDuplicates(['credit_card_number', 'credit_card_provider'])
+        df = df.withColumn("bank_account_number", df["bank_account_number"].cast("string"))
+        df = df.dropDuplicates(['bank_account_number'])
 
         return df
 
 
-    def secondTransactionsBatchDataGen(self, shuffle_partitions_requested = 1, partitions_requested = 1, data_rows = 150):
+    def secondSalesBatchDataGen(self, shuffle_partitions_requested = 1, partitions_requested = 1, data_rows = 150):
 
         # setup use of Faker
         FakerTextUS = FakerTextFactory(locale=['en_US'], providers=[bank])
@@ -230,19 +234,21 @@ class ManufacturingDataGen:
         self.spark.conf.set("spark.sql.shuffle.partitions", shuffle_partitions_requested)
 
         fakerDataspec = (DataGenerator(self.spark, rows=data_rows, partitions=partitions_requested)
-                    .withColumn("credit_card_number", "long", minValue=3674567891191999, maxValue=3674567891192999, uniqueValues=data_rows, random=True, randomSeed=4) #text=FakerTextUS("credit_card_number")
-                    .withColumn("credit_card_provider", text=FakerTextUS("credit_card_provider"))
-                    .withColumn("transaction_type", "string", values=["purchase", "cash_advance"], random=True, weights=[9, 1])
+                    .withColumn("bank_account_number", "long", minValue=3674567891191999, maxValue=3674567891192999, uniqueValues=data_rows, random=True, randomSeed=4) #text=FakerTextUS("credit_card_number")
+                    .withColumn("transaction_type", "string", values=["whole purchase", "car loan"], random=True, weights=[1, 9])
                     .withColumn("event_ts", "timestamp", begin="2023-01-01 01:00:00",end="2023-12-31 23:59:00",interval="1 minute", random=True)
                     .withColumn("longitude", "float", minValue=-125, maxValue=-66.9345, random=True)
                     .withColumn("latitude", "float", minValue=24.3963, maxValue=49.3843, random=True)
-                    .withColumn("transaction_currency", values=["USD", "EUR", "KWD", "BHD", "GBP", "CHF", "MEX"])
-                    .withColumn("transaction_amount", "decimal", minValue=0.01, maxValue=30000, random=True)
+                    .withColumn("transaction_currency", values=["USD"])
+                    .withColumn("transaction_amount", "decimal", minValue=12500, maxValue=190000, random=True)
+                    .withColumn("car_brand", "string", values=["Vireon Motors", "Aetherion Automotive", "Unique Motors Ltd", "Gravari", "American Wagons"], random=True, weights=[2, 2, 2, 2, 2])
+                    .withColumn("vehicle_model_name", "string", values=["Altara", "Noventis", "Crestline", "Quessa", "Stratos X", "Qavac", "Veltrix", "Ironveil", "Roqline", "Zenthra"], random=True, weights=[1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+                    .withColumn("vehicle_type", "string", values=["Sedan", "SUV/Crossover", "EV", "Truck/Utility", "Sports/Performance"], random=True, weights=[2, 2, 2, 2, 2])
                     )
 
         df = fakerDataspec.build()
-        df = df.withColumn("credit_card_number", df["credit_card_number"].cast("string"))
-        df = df.dropDuplicates(['credit_card_number', 'credit_card_provider'])
+        df = df.withColumn("bank_account_number", df["bank_account_number"].cast("string"))
+        df = df.dropDuplicates(['bank_account_number'])
 
         return df
 
@@ -261,15 +267,13 @@ class ManufacturingDataGen:
                     .withColumn("address_longitude", "float", minValue=-125, maxValue=-66.9345, random=True)
                     .withColumn("address_latitude", "float", minValue=24.3963, maxValue=49.3843, random=True)
                     .withColumn("email", text=FakerTextUS("ascii_company_email") )
-                    .withColumn("aba_routing", text=FakerTextUS("aba" ))
                     .withColumn("bank_country", text=FakerTextUS("bank_country") )
-                    .withColumn("account_no", text=FakerTextUS("bban" ))
                     .withColumn("int_account_no", text=FakerTextUS("iban") )
                     .withColumn("swift11", text=FakerTextUS("swift11" ))
-                    .withColumn("credit_card_number", "long", minValue=3674567891195999, maxValue=3674567891197999, uniqueValues=1000, random=True, randomSeed=4)
+                    .withColumn("bank_account_number", "long", minValue=3674567891195999, maxValue=3674567891197999, uniqueValues=1000, random=True, randomSeed=4)
                     )
 
         df = fakerDataspec.build()
-        df = df.withColumn("credit_card_number", df["credit_card_number"].cast("string"))
+        df = df.withColumn("bank_account_number", df["bank_account_number"].cast("string"))
 
         return df
