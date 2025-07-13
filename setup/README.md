@@ -44,22 +44,22 @@ This step must only be run once.
 
 Before proceeding, make sure to update your ~/.cde/config.yaml with your Spark 3.5 Virtual Cluster's CDE Jobs API URL.
 
-Deployment script command template:
+Deployment script command template. Notice the demo argument. Currently, "banking" and "manufacturing" are the two supported demos.
 
 ```
-% ./setup/new_deploy_hol.sh <cdp-workload-user> <max-hol-participants> <storage-location>
+% ./setup/new_deploy_hol.sh <cdp-workload-user> <max-hol-participants> <storage-location> <demo>
 ```
 
 You must always create data in the data directory. For example:
 
 ```
 #AWS
-% ./setup/new_deploy_hol.sh pauldefusco 10 s3a://goes-se-sandbox/data/cde-123-hol
+% ./setup/new_deploy_hol.sh pauldefusco 10 s3a://goes-se-sandbox/data/cde-123-hol banking
 ```
 
 ```
 #Azure
-% ./setup/new_deploy_hol.sh pauldefusco 7 abfs://logs@go01demoazure.dfs.core.windows.net/data/cde-123-hol
+% ./setup/new_deploy_hol.sh pauldefusco 7 abfs://logs@go01demoazure.dfs.core.windows.net/data/cde-123-hol manufacturing
 ```
 
 #### 2. Run deploy_hol_resources.py in all the Spark 3.5 Virtual Clusters used by Participants.
