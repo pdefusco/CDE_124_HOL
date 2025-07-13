@@ -71,7 +71,7 @@ def createSparkSession():
     try:
         spark = SparkSession \
             .builder \
-            .appName("BANK TRANSACTIONS LOAD") \
+            .appName("DEMO LOAD") \
             .getOrCreate()
     except Exception as e:
         print("LAUNCHING SPARK SESSION UNSUCCESSFUL")
@@ -82,155 +82,305 @@ def createSparkSession():
     return spark
 
 
-def createTransactionData(spark):
+def createTransactionData(spark, demo):
     """
     Method to create a Banking Transactions dataframe using the dbldatagen and Faker frameworks
     """
 
-    try:
-        print("CREATING BANKING TRANSACTIONS DF...\n")
-        dg = BankDataGen(spark)
-        transactionsDf = dg.transactionsDataGen()
-    except Exception as e:
-        print("CREATING TRANSACTION DATA UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+    if demo == "manufacturing":
+
+        try:
+            print("CREATING CAR SALES DF...\n")
+            dg = CarSalesDataGen(spark)
+            transactionsDf = dg.transactionsDataGen()
+        except Exception as e:
+            print("CREATING TRANSACTION DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "banking":
+
+        try:
+            print("CREATING BANKING TRANSACTIONS DF...\n")
+            dg = BankDataGen(spark)
+            transactionsDf = dg.transactionsDataGen()
+        except Exception as e:
+            print("CREATING TRANSACTION DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
     return transactionsDf
 
 
-def createTransactionBatch(spark):
+def createTransactionBatch(spark, demo):
     """
     Method to create a Banking Transactions dataframe using the dbldatagen and Faker frameworks
     """
 
-    try:
-        print("CREATING BANKING TRANSACTIONS 1 DF BATCH...\n")
-        dg = BankDataGen(spark)
-        transactionsBatchDf = dg.transactionsBatchDataGen()
-    except Exception as e:
-        print("CREATING TRANSACTION DATA 1 UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+    if demo == "manufacturing":
+
+        try:
+            print("CREATING CAR SALES DF...\n")
+            dg = CarSalesDataGen(spark)
+            transactionsBatchDf = dg.salesBatchDataGen()
+        except Exception as e:
+            print("CREATING TRANSACTION DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "banking":
+
+        try:
+            print("CREATING BANKING TRANSACTIONS 1 DF BATCH...\n")
+            dg = BankDataGen(spark)
+            transactionsBatchDf = dg.transactionsBatchDataGen()
+        except Exception as e:
+            print("CREATING TRANSACTION DATA 1 UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
     return transactionsBatchDf
 
-def createSecondTransactionBatch(spark):
+
+def createSecondTransactionBatch(spark, demo):
     """
     Method to create a Banking Transactions dataframe using the dbldatagen and Faker frameworks
     """
 
-    try:
-        print("CREATING BANKING TRANSACTIONS 2 BATCH DF...\n")
-        dg = BankDataGen(spark)
-        secondTransactionsBatchDf = dg.secondTransactionsBatchDataGen()
-    except Exception as e:
-        print("CREATING TRANSACTION DATA 2 UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+    if demo == "manufacturing":
+
+        try:
+            print("CREATING CAR SALES DF...\n")
+            dg = CarSalesDataGen(spark)
+            secondTransactionsBatchDf = dg.secondSalesBatchDataGen()
+        except Exception as e:
+            print("CREATING CAR DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "banking":
+
+        try:
+            print("CREATING BANKING TRANSACTIONS 2 BATCH DF...\n")
+            dg = BankDataGen(spark)
+            secondTransactionsBatchDf = dg.secondTransactionsBatchDataGen()
+        except Exception as e:
+            print("CREATING TRANSACTION DATA 2 UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
     return secondTransactionsBatchDf
 
 
-def createPiiData(spark):
+def createPiiData(spark, demo):
     """
     Method to create a Banking Pii dataframe using the dbldatagen and Faker frameworks
     """
 
-    try:
-        print("CREATING BANKING PII DF...\n")
-        dg = BankDataGen(spark)
-        piiDf = dg.piiDataGen()
-    except Exception as e:
-        print("CREATING PII DATA UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+    if demo == "manufacturing":
+
+        try:
+            print("CREATING CAR SALES PII DF...\n")
+            dg = CarSalesDataGen(spark)
+            piiDf = dg.piiDataGen()
+        except Exception as e:
+            print("CREATING CAR SALES PII DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "banking":
+
+        try:
+            print("CREATING BANKING PII DF...\n")
+            dg = BankDataGen(spark)
+            piiDf = dg.piiDataGen()
+        except Exception as e:
+            print("CREATING BANKING PII DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
     return piiDf
 
 
-def saveTransactionData(bankTransactionsDf, storageLocation, username):
+def saveTransactionData(transactionsDf, storageLocation, username, demo):
     """
     Method to save banking transactions to Cloud Storage in Json format
     """
 
     print("SAVING BANKING TRANSACTIONS TO JSON IN CLOUD STORAGE...\n")
 
-    try:
-        bankTransactionsDf. \
-            write. \
-            format("json"). \
-            mode("overwrite"). \
-            save("{0}/trans/{1}/rawtransactions".format(storageLocation, username))
-    except Exception as e:
-        print("SAVING SYNTHETIC TRANSACTION DATA UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+
+    if demo == "manufacturing":
+
+        try:
+            transactionsDf. \
+                write. \
+                format("json"). \
+                mode("overwrite"). \
+                save("{0}/carsales/{1}/rawcarsales".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING SYNTHETIC CAR SALES DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "banking":
+
+        try:
+            bankTransactionsDf. \
+                write. \
+                format("json"). \
+                mode("overwrite"). \
+                save("{0}/trans/{1}/rawtransactions".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING SYNTHETIC TRANSACTION DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
 
-def saveTransactionBatch(transactionsBatchDf, storageLocation, username):
+def saveTransactionBatch(transactionsBatchDf, storageLocation, username, demo):
     """
     Method to save banking transactions to Cloud Storage in Json format
     """
 
     print("SAVING TRANSACTIONS BATCH 1 TO JSON IN CLOUD STORAGE...\n")
 
-    try:
-        transactionsBatchDf. \
-            write. \
-            format("json"). \
-            mode("overwrite"). \
-            save("{0}/trans/{1}/trx_batch_1".format(storageLocation, username))
-    except Exception as e:
-        print("SAVING TRANSACTION BATCH 1 UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+    if demo == "banking":
+
+        try:
+            transactionsBatchDf. \
+                write. \
+                format("json"). \
+                mode("overwrite"). \
+                save("{0}/trans/{1}/trx_batch_1".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING TRANSACTION BATCH 1 UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "manufacturing":
+
+        try:
+            transactionsBatchDf. \
+                write. \
+                format("json"). \
+                mode("overwrite"). \
+                save("{0}/carsales/{1}/sales_batch_1".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING TRANSACTION BATCH 1 UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
 
-def saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username):
+def saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username, demo):
     """
     Method to save banking transactions to Cloud Storage in Json format
     """
 
-    print("SAVING TRANSACTIONS BATCH 2 TO JSON IN CLOUD STORAGE...\n")
+    if demo == "banking":
 
-    try:
-        secondTransactionsBatchDf. \
-            write. \
-            format("json"). \
-            mode("overwrite"). \
-            save("{0}/trans/{1}/trx_batch_2".format(storageLocation, username))
-    except Exception as e:
-        print("SAVING TRANSACTION BATCH 2 UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+        print("SAVING TRANSACTIONS BATCH 2 TO JSON IN CLOUD STORAGE...\n")
+
+        try:
+            secondTransactionsBatchDf. \
+                write. \
+                format("json"). \
+                mode("overwrite"). \
+                save("{0}/trans/{1}/trx_batch_2".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING TRANSACTION BATCH 2 UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "manufacturing":
+
+        print("SAVING CAR SALES BATCH 2 TO JSON IN CLOUD STORAGE...\n")
+
+        try:
+            secondTransactionsBatchDf. \
+                write. \
+                format("json"). \
+                mode("overwrite"). \
+                save("{0}/carsales/{1}/sales_batch_2".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING CAR SALES BATCH 2 UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
 
-def savePiiData(piiDf, storageLocation, username):
+def savePiiData(piiDf, storageLocation, username, demo):
     """
     Method to save banking transactions to Cloud Storage in csv format
     """
 
-    print("SAVING PII DF TO CSV IN CLOUD STORAGE...\n")
+    if demo == "banking":
 
-    try:
-        piiDf \
-            .write. \
-            mode('overwrite') \
-            .options(header='True', delimiter=',') \
-            .csv("{0}/pii/{1}/pii".format(storageLocation, username))
-    except Exception as e:
-        print("SAVING SYNTHETIC TRANSACTION DATA UNSUCCESSFUL")
-        print('\n')
-        print(f'caught {type(e)}: e')
-        print(e)
+        print("SAVING PII DF TO CSV IN CLOUD STORAGE...\n")
+
+        try:
+            piiDf \
+                .write. \
+                mode('overwrite') \
+                .options(header='True', delimiter=',') \
+                .csv("{0}/pii/{1}/pii".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING SYNTHETIC PII DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    elif demo == "manufacturing":
+
+        print("SAVING PII DF TO CSV IN CLOUD STORAGE...\n")
+
+        try:
+            piiDf \
+                .write. \
+                mode('overwrite') \
+                .options(header='True', delimiter=',') \
+                .csv("{0}/pii/{1}/pii".format(storageLocation, username))
+        except Exception as e:
+            print("SAVING SYNTHETIC PII DATA UNSUCCESSFUL")
+            print('\n')
+            print(f'caught {type(e)}: e')
+            print(e)
+
+    else:
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
 
 def main():
@@ -241,7 +391,27 @@ def main():
 
     if demo == "manufacturing":
 
-        pass
+        for i in range(int(maxParticipants)):
+            if i+1 < 10:
+                username = "user00" + str(i+1)
+            elif i+1 > 9 and i+1 < 99:
+                username = "user0" + str(i+1)
+            elif i+1 > 99:
+                username = "user" + str(i+1)
+
+            print("PROCESSING USER {}...\n".format(username))
+
+            carSalesDf = createTransactionData(spark, demo)
+            saveTransactionData(carSalesDf, storageLocation, username, demo)
+
+            piiDf = createPiiData(spark, demo)
+            savePiiData(piiDf, storageLocation, username, demo)
+
+            transactionsBatchDf = createTransactionBatch(spark, demo)
+            saveTransactionBatch(transactionsBatchDf, storageLocation, username, demo)
+
+            secondTransactionsBatchDf = createSecondTransactionBatch(spark, demo)
+            saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username, demo)
 
     elif demo == "banking":
 
@@ -255,20 +425,20 @@ def main():
 
             print("PROCESSING USER {}...\n".format(username))
 
-            bankTransactionsDf = createTransactionData(spark)
-            saveTransactionData(bankTransactionsDf, storageLocation, username)
+            bankTransactionsDf = createTransactionData(spark, demo)
+            saveTransactionData(bankTransactionsDf, storageLocation, username, demo)
 
-            piiDf = createPiiData(spark)
-            savePiiData(piiDf, storageLocation, username)
+            piiDf = createPiiData(spark, demo)
+            savePiiData(piiDf, storageLocation, username, demo)
 
-            transactionsBatchDf = createTransactionBatch(spark)
-            saveTransactionBatch(transactionsBatchDf, storageLocation, username)
+            transactionsBatchDf = createTransactionBatch(spark, demo)
+            saveTransactionBatch(transactionsBatchDf, storageLocation, username, demo)
 
-            secondTransactionsBatchDf = createSecondTransactionBatch(spark)
-            saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username)
+            secondTransactionsBatchDf = createSecondTransactionBatch(spark, demo)
+            saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username, demo)
 
     else:
-        "Wrong demo name was used. Please use either 'banking' or 'manufacturing'."
+        print("Wrong demo name was used. Please use either 'banking' or 'manufacturing'.")
 
 if __name__ == "__main__":
     main()
