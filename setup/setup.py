@@ -235,32 +235,40 @@ def savePiiData(piiDf, storageLocation, username):
 
 def main():
 
-    maxParticipants, storageLocation = parseProperties()
+    maxParticipants, storageLocation, demo = parseProperties()
 
     spark = createSparkSession()
 
-    for i in range(int(maxParticipants)):
-        if i+1 < 10:
-            username = "user00" + str(i+1)
-        elif i+1 > 9 and i+1 < 99:
-            username = "user0" + str(i+1)
-        elif i+1 > 99:
-            username = "user" + str(i+1)
+    if demo == "manufacturing":
 
-        print("PROCESSING USER {}...\n".format(username))
+        pass
 
-        bankTransactionsDf = createTransactionData(spark)
-        saveTransactionData(bankTransactionsDf, storageLocation, username)
+    elif demo == "banking":
 
-        piiDf = createPiiData(spark)
-        savePiiData(piiDf, storageLocation, username)
+        for i in range(int(maxParticipants)):
+            if i+1 < 10:
+                username = "user00" + str(i+1)
+            elif i+1 > 9 and i+1 < 99:
+                username = "user0" + str(i+1)
+            elif i+1 > 99:
+                username = "user" + str(i+1)
 
-        transactionsBatchDf = createTransactionBatch(spark)
-        saveTransactionBatch(transactionsBatchDf, storageLocation, username)
+            print("PROCESSING USER {}...\n".format(username))
 
-        secondTransactionsBatchDf = createSecondTransactionBatch(spark)
-        saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username)
+            bankTransactionsDf = createTransactionData(spark)
+            saveTransactionData(bankTransactionsDf, storageLocation, username)
 
+            piiDf = createPiiData(spark)
+            savePiiData(piiDf, storageLocation, username)
+
+            transactionsBatchDf = createTransactionBatch(spark)
+            saveTransactionBatch(transactionsBatchDf, storageLocation, username)
+
+            secondTransactionsBatchDf = createSecondTransactionBatch(spark)
+            saveSecondTransactionBatch(secondTransactionsBatchDf, storageLocation, username)
+
+    else:
+        "Wrong demo name was used. Please use either 'banking' or 'manufacturing'."
 
 if __name__ == "__main__":
     main()
