@@ -30,4 +30,4 @@ Detailed instructions are provided in the [step_by_step_guides](https://github.c
 
 ## Setup Instructions
 
-The HOL requires data and CDE dependencies (e.g. shared Files, Pyhton, Docker Resource) to be created before the event. The attached [Setup Guide](https://github.com/pdefusco/CDE_124_HOL/blob/main/setup/README.md) provides instructions for completing these requirements.
+The HOL requires data and CDE dependencies (e.g. shared Files, Python, Docker Resource) to be created before the event. The attached [Setup Guide](https://github.com/pdefusco/CDE_124_HOL/blob/main/setup/README.md) provides instructions for completing these requirements.
