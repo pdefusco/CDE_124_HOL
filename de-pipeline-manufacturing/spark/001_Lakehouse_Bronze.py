@@ -107,7 +107,7 @@ spark.sql("""SELECT * FROM SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_REFINED_{0}""".
 
 
 #---------------------------------------------------
-#               CREATE TRANSACTIONS TABLE
+#               CREATE SALES TABLE
 #---------------------------------------------------
 
 ### LOAD HISTORICAL TRANSACTIONS FILE FROM CLOUD STORAGE
@@ -123,7 +123,7 @@ cols = ["transaction_amount", "latitude", "longitude"]
 transactionsDf = castMultipleColumns(transactionsDf, cols)
 transactionsDf = transactionsDf.withColumn("event_ts", transactionsDf["event_ts"].cast("timestamp"))
 
-### SAVE TRANSACTIONS AS TABLE
+### SAVE SALES AS TABLE
 transactionsDf.writeTo("SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}".format(username))\
                 .using("iceberg")\
                 .tableProperty("write.format.default", "parquet")\
