@@ -10,7 +10,8 @@ d=$(date)
 fmt="%-30s %s\n"
 
 current_date=$(date +"%Y%m%d")
-storage=$cdp_data_lake_storage"-"$demo"-"$current_date
+storage=$cdp_data_lake_storage"/"$demo"/"$current_date
+echo "STORAGE: ${storage}"
 
 echo "##########################################################"
 printf "${fmt}" "CDE HOL deployment launched."
