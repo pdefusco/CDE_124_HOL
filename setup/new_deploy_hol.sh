@@ -9,7 +9,7 @@ cde_user_formatted=${cde_user//[-._]/}
 d=$(date)
 fmt="%-30s %s\n"
 
-cdp_data_lake_storage=$cdp_data_lake_storage"-"$demo"-"$d
+storage=$cdp_data_lake_storage"-"$demo"-"$d
 
 echo "##########################################################"
 printf "${fmt}" "CDE HOL deployment launched."
@@ -36,7 +36,7 @@ cde resource upload \
 
 echo "CREATE PYTHON RESOURCE"
 cde resource delete \
-  --name cde124-hol-setup-py
+  --name datagen-hol-setup-py
 
 cde resource create \
   --type python-env \
@@ -78,7 +78,7 @@ cde job create --name cde124-hol-setup-job \
   --application-file setup.py \
   --python-env-resource-name datagen-hol-setup-py \
   --arg $max_participants \
-  --arg $cdp_data_lake_storage \
+  --arg $storage \
   --arg $demo
 
 cde job run \
