@@ -4,8 +4,8 @@
 
 ## Contents
 
-1. [Spark Application Development](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-1-spark-application-development).  
-2. [CDE Repositories, Jobs, and Monitoring](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-2-cde-repositories-jobs-and-monitoring).
+1. [Spark Application Development](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-1-spark-application-development).  
+2. [CDE Repositories, Jobs, and Monitoring](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-2-cde-repositories-jobs-and-monitoring).
 
 We will prototype and test the Iceberg Merge Into and Incremental Read Operations.
 
@@ -149,7 +149,7 @@ CDE Repositories are used to import files and dependencies into Virtual Clusters
 ```
 cde repository create --name sparkAppRepoDevUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
   --vcluster-endpoint <your-DEV-vc-jobs-api-url-here>
 ```
 
@@ -163,7 +163,7 @@ For example:
 ```
 cde repository create --name sparkAppRepoDevUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
   --vcluster-endpoint https://n4lzxz9j.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
