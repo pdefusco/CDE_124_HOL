@@ -9,7 +9,8 @@ cde_user_formatted=${cde_user//[-._]/}
 d=$(date)
 fmt="%-30s %s\n"
 
-storage=$cdp_data_lake_storage"-"$demo"-"$d
+current_date=$(date +"%Y%m%d")
+storage=$cdp_data_lake_storage"-"$demo"-"$current_date
 
 echo "##########################################################"
 printf "${fmt}" "CDE HOL deployment launched."
