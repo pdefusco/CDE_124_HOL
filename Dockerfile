@@ -21,7 +21,8 @@ RUN pip3 install numpy \
   scikit-learn
 
 ADD img /home/cdeuser/img
-ADD de-pipeline /home/cdeuser/de-pipeline
+ADD de-pipeline-manufacturing /home/cdeuser/de-pipeline-manufacturing
+ADD de-pipeline-bank /home/cdeuser/de-pipeline-bank
 ADD setup /home/cdeuser/setup
 ADD config.yaml /home/cdeuser/.cde/config.yaml
 ADD credentials /home/cdeuser/.cdp/credentials
