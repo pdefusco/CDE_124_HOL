@@ -4,8 +4,8 @@
 
 ## Contenu
 
-1. [Développement d'Applications Spark](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-1-spark-application-development).
-2. [Dépôts CDE, Jobs et Surveillance](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-2-cde-repositories-jobs-and-monitoring).
+1. [Développement d'Applications Spark](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-1-spark-application-development).
+2. [Dépôts CDE, Jobs et Surveillance](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-2-cde-repositories-jobs-and-monitoring).
 
 Nous allons prototyper et tester les opérations de Fusion et de Lecture Incrémentale Iceberg.
 
@@ -16,14 +16,14 @@ Nous allons prototyper et tester les opérations de Fusion et de Lecture Incrém
 Clonez le dépôt GitHub sur votre machine locale.
 
 ```
-git clone https://github.com/pdefusco/CDE_123_HOL.git
-cd CDE_123_HOL
+git clone https://github.com/pdefusco/CDE_124_HOL.git
+cd CDE_124_HOL
 ```
 
 Lancez le conteneur Docker.
 
 ```
-docker run -p 8888:8888 pauldefusco/cde123hol
+docker run -p 8888:8888 pauldefusco/cde_124_hol
 ```
 
 Lancez l'IDE JupyterLab dans votre navigateur en copiant et en collant l'URL fournie comme montré ci-dessous.
@@ -130,7 +130,7 @@ cde spark submit \
   --vcluster-endpoint https://9rqklznh.cde-8qhz2284.pdefusco.a465-9q4k.cloudera.site/dex/api/v1 \
   --executor-memory "4g" \
   --executor-cores 2 \
-  s3a://cde-hol-buk-d2ab0f50/data/cde-123-hol \
+  s3a://cde-hol-buk-d2ab0f50/data/cde-124-hol \
   user001
 ```
 
@@ -149,7 +149,7 @@ Les dépôts CDE sont utilisés pour importer des fichiers et des dépendances d
 ```
 cde repository create --name sparkAppRepoDevUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
   --vcluster-endpoint <votre-DEV-vc-jobs-api-url-ici>
 
 cde repository sync --name sparkAppRepoDevUser001 \
