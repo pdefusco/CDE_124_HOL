@@ -15,6 +15,10 @@ printf "${fmt}" "launch time:" "${d}"
 printf "${fmt}" "performed by CDP User:" "${cde_user}"
 echo "##########################################################"
 
+echo "DELETE SETUP JOB"
+cde job delete \
+  --name cde124-hol-setup-job
+
 echo "CREATE FILE RESOURCE"
 cde resource delete \
   --name cde124-hol-setup-fs
@@ -66,9 +70,6 @@ function loading_icon_env() {
 loading_icon_env "Python Env Build in Progress"
 
 echo "CREATE AND RUN SETUP JOB"
-cde job delete \
-  --name cde124-hol-setup-job
-
 cde job create --name cde124-hol-setup-job \
   --type spark \
   --mount-1-resource cde124-hol-setup-fs \

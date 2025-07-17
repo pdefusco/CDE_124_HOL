@@ -387,6 +387,10 @@ def main():
 
     maxParticipants, storageLocation, demo = parseProperties()
 
+    print("\nMax Participants: ", maxParticipants)
+    print("\nStorage Location: ", storageLocation)
+    print("\nDemo: ", demo)
+
     spark = createSparkSession()
 
     if demo == "manufacturing":
