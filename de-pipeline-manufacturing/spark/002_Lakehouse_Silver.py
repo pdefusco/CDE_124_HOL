@@ -58,12 +58,12 @@ print("PySpark Runtime Arg: ", sys.argv[1])
 #---------------------------------------------------
 
 ### TRANSACTIONS FACT TABLE
-branchDf = spark.sql("SELECT * FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0} VERSION AS OF 'ingestion_branch';".format(username))
+branchDf = spark.sql("SELECT * FROM SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0} VERSION AS OF 'ingestion_branch';".format(username))
 
 ### TRX DF SCHEMA BEFORE CASTING
 branchDf.printSchema()
 
-print("COUNT OF NEW BATCH OF TRANSACTIONS")
+print("COUNT OF NEW BATCH OF SALES")
 print(branchDf.count())
 
 
@@ -87,7 +87,7 @@ assert geTrxBatchDfValidation.success, \
 #---------------------------------------------------
 
 ### PRE-MERGE COUNTS BY TRANSACTION TYPE:
-spark.sql("""SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}""".format(username)).show()
+spark.sql("""SELECT COUNT(*) FROM SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}""".format(username)).show()
 
 ### APPEND OPERATION
 #branchDf.write.format("iceberg").mode("append").save("SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}".format(username))
@@ -104,14 +104,14 @@ spark.sql("""SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}""".forma
 #we will use the cherrypick operation to commit the changes to the table which were staged in the 'ing_branch' branch up until now.
 
 # SHOW PAST BRANCH SNAPSHOT ID'S
-spark.sql("SELECT * FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}.refs;".format(username)).show()
+spark.sql("SELECT * FROM SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}.refs;".format(username)).show()
 
 # SAVE THE SNAPSHOT ID CORRESPONDING TO THE CREATED BRANCH
-branchSnapshotId = spark.sql("SELECT snapshot_id FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}.refs WHERE NAME == 'ingestion_branch';".format(username)).collect()[0][0]
+branchSnapshotId = spark.sql("SELECT snapshot_id FROM SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}.refs WHERE NAME == 'ingestion_branch';".format(username)).collect()[0][0]
 
 # USE THE PROCEDURE TO CHERRY-PICK THE SNAPSHOT
 # THIS IMPLICITLY SETS THE CURRENT TABLE STATE TO THE STATE DEFINED BY THE CHOSEN PRIOR SNAPSHOT ID
-spark.sql("CALL iceberg.system.set_current_snapshot('SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}',{1})".format(username, branchSnapshotId))
+spark.sql("CALL iceberg.system.set_current_snapshot('SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}',{1})".format(username, branchSnapshotId))
 
 # DROP BRANCH
 #try:
@@ -119,4 +119,4 @@ spark.sql("CALL iceberg.system.set_current_snapshot('SPARK_CATALOG.HOL_DB_{0}.HI
 
 # VALIDATE THE CHANGES
 # THE TABLE ROW COUNT IN THE CURRENT TABLE STATE REFLECTS THE APPEND OPERATION - IT PREVIOSULY ONLY DID BY SELECTING THE BRANCH
-spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0};".format(username)).show()
+spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0};".format(username)).show()

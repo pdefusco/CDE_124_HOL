@@ -57,13 +57,13 @@ print("PySpark Runtime Arg: ", sys.argv[1])
 #---------------------------------------------------
 
 # ICEBERG TABLE HISTORY (SHOWS EACH SNAPSHOT AND TIMESTAMP)
-spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}.history".format(username)).show()
+spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.HIST_SALES_{0}.history".format(username)).show()
 
 # ICEBERG TABLE SNAPSHOTS (USEFUL FOR INCREMENTAL QUERIES AND TIME TRAVEL)
-spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}.snapshots".format(username)).show()
+spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.HIST_SALES_{0}.snapshots".format(username)).show()
 
 # STORE FIRST AND LAST SNAPSHOT ID'S FROM SNAPSHOTS TABLE
-snapshots_df = spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.HIST_TRX_{0}.snapshots;".format(username))
+snapshots_df = spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.HIST_SALES_{0}.snapshots;".format(username))
 
 # SNAPSHOTS
 snapshots_df.show()
@@ -76,7 +76,7 @@ incReadDf = spark.read\
     .format("iceberg")\
     .option("start-snapshot-id", first_snapshot)\
     .option("end-snapshot-id", last_snapshot)\
-    .load("spark_catalog.HOL_DB_{0}.HIST_TRX_{0}".format(username))
+    .load("spark_catalog.CAR_SALES_{0}.HIST_SALES_{0}".format(username))
 
 print("Incremental Report:")
 incReadDf.show()
@@ -87,7 +87,7 @@ incReadDf.show()
 #-----------------------------------------------------
 
 ### LOAD CUSTOMER DATA REFINED
-custDf = spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.CUST_TABLE_REFINED_{0}".format(username))
+custDf = spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.HIST_SALES_REFINED_{0}".format(username))
 
 print("Cust DF Schema: ")
 custDf.printSchema()
@@ -110,6 +110,6 @@ distanceDf = distanceDf.filter(distanceDf.trx_dist_from_home > 50)
 
 gold_cols = ['transaction_amount', 'transaction_currency', 'transaction_type', 'trx_dist_from_home', 'name', 'email', 'bank_country', 'account_no']
 
-distanceDf.select(*gold_cols).writeTo("spark_catalog.HOL_DB_{0}.GOLD_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
+distanceDf.select(*gold_cols).writeTo("spark_catalog.CAR_SALES_{0}.GOLD_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
 
 #spark.sql("SELECT * FROM spark_catalog.HOL_DB_{0}.GOLD_TABLE_{0}".format(username)).show()

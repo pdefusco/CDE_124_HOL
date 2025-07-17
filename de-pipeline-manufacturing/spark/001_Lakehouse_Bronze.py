@@ -54,10 +54,10 @@ storageLocation = sys.argv[2]
 print("PySpark Runtime Arg: ", sys.argv[2])
 
 ### RECREATE DATABASE AND TRX TABLE
-spark.sql("DROP DATABASE IF EXISTS SPARK_CATALOG.HOL_DB_{} CASCADE".format(username))
-spark.sql("CREATE DATABASE IF NOT EXISTS SPARK_CATALOG.HOL_DB_{}".format(username))
-spark.sql("DROP TABLE IF EXISTS spark_catalog.HOL_DB_{0}.TRANSACTIONS_{0} PURGE".format(username))
-spark.sql("DROP TABLE IF EXISTS spark_catalog.HOL_DB_{0}.CUST_TABLE_{0} PURGE".format(username))
+spark.sql("DROP DATABASE IF EXISTS SPARK_CATALOG.CAR_SALES_{} CASCADE".format(username))
+spark.sql("CREATE DATABASE IF NOT EXISTS SPARK_CATALOG.CAR_SALES_{}".format(username))
+spark.sql("DROP TABLE IF EXISTS spark_catalog.CAR_SALES_{0}.CAR_SALES_{0} PURGE".format(username))
+spark.sql("DROP TABLE IF EXISTS spark_catalog.CAR_SALES_{0}.PII_TABLE_{0} PURGE".format(username))
 
 
 #---------------------------------------------------
@@ -72,19 +72,19 @@ piiDf = piiDf.withColumn("address_latitude",  piiDf["address_latitude"].cast('fl
 piiDf = piiDf.withColumn("address_longitude",  piiDf["address_longitude"].cast('float'))
 
 ### STORE CUSTOMER DATA AS TABLE
-piiDf.writeTo("spark_catalog.HOL_DB_{0}.CUST_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
+piiDf.writeTo("spark_catalog.CAR_SALES_{0}.PII_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
 
 
 #---------------------------------------------------
 #               CREATE REFINED CUSTOMER TABLE
 #---------------------------------------------------
 
-spark.sql("DROP TABLE IF EXISTS SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}".format(username))
+spark.sql("DROP TABLE IF EXISTS SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_REFINED_{0}".format(username))
 
-spark.sql("""CREATE TABLE SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
+spark.sql("""CREATE TABLE SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_REFINED_{0}
                 USING iceberg
                 AS SELECT NAME, EMAIL, BANK_COUNTRY, ACCOUNT_NO, CREDIT_CARD_NUMBER, ADDRESS_LATITUDE, ADDRESS_LONGITUDE
-                FROM SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_{0}""".format(username))
+                FROM SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_{0}""".format(username))
 
 
 #---------------------------------------------------
@@ -92,10 +92,10 @@ spark.sql("""CREATE TABLE SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
 #---------------------------------------------------
 
 # UPDATE TYPES: Updating Latitude and Longitude FROM FLOAT TO DOUBLE
-spark.sql("""ALTER TABLE SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
+spark.sql("""ALTER TABLE SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_REFINED_{0}
                 ALTER COLUMN ADDRESS_LATITUDE TYPE double""".format(username))
 
-spark.sql("""ALTER TABLE SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
+spark.sql("""ALTER TABLE SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_REFINED_{0}
                 ALTER COLUMN ADDRESS_LONGITUDE TYPE double""".format(username))
 
 
@@ -103,7 +103,7 @@ spark.sql("""ALTER TABLE SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}
 #               VALIDATE TABLE
 #---------------------------------------------------
 
-spark.sql("""SELECT * FROM SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}""".format(username)).show()
+spark.sql("""SELECT * FROM SPARK_CATALOG.CAR_SALES_{0}.PII_TABLE_REFINED_{0}""".format(username)).show()
 
 
 #---------------------------------------------------
@@ -111,7 +111,7 @@ spark.sql("""SELECT * FROM SPARK_CATALOG.HOL_DB_{0}.CUST_TABLE_REFINED_{0}""".fo
 #---------------------------------------------------
 
 ### LOAD HISTORICAL TRANSACTIONS FILE FROM CLOUD STORAGE
-transactionsDf = spark.read.json("{0}/trans/{1}/rawtransactions".format(storageLocation, username))
+transactionsDf = spark.read.json("{0}/carsales/{1}/rawcarsales".format(storageLocation, username))
 transactionsDf.printSchema()
 
 ### RUN PYTHON FUNCTION TO FLATTEN NESTED STRUCTS AND VALIDATE NEW SCHEMA
@@ -124,13 +124,13 @@ transactionsDf = castMultipleColumns(transactionsDf, cols)
 transactionsDf = transactionsDf.withColumn("event_ts", transactionsDf["event_ts"].cast("timestamp"))
 
 ### SAVE TRANSACTIONS AS TABLE
-transactionsDf.writeTo("SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}".format(username))\
+transactionsDf.writeTo("SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}".format(username))\
                 .using("iceberg")\
                 .tableProperty("write.format.default", "parquet")\
                 .createOrReplace()
 
 print("COUNT OF TRANSACTIONS TABLE")
-spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0};".format(username)).show()
+spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0};".format(username)).show()
 
 
 #---------------------------------------------------
@@ -138,7 +138,7 @@ spark.sql("SELECT COUNT(*) FROM SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0};".format(u
 #---------------------------------------------------
 
 ### TRANSACTIONS FACT TABLE
-trxBatchDf = spark.read.json("{0}/trans/{1}/trx_batch_2".format(storageLocation, username))
+trxBatchDf = spark.read.json("{0}/carsales/{1}/sales_batch_2".format(storageLocation, username))
 
 ### TRX DF SCHEMA BEFORE CASTING
 trxBatchDf.printSchema()
@@ -148,8 +148,8 @@ cols = ["transaction_amount", "latitude", "longitude"]
 trxBatchDf = castMultipleColumns(trxBatchDf, cols)
 trxBatchDf = trxBatchDf.withColumn("event_ts", trxBatchDf["event_ts"].cast("timestamp"))
 
-# CREATE TABLE BRANC
-spark.sql("ALTER TABLE SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0} CREATE BRANCH ingestion_branch".format(username))
+# CREATE TABLE BRANCH
+spark.sql("ALTER TABLE SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0} CREATE BRANCH ingestion_branch".format(username))
 
 # WRITE DATA OPERATION ON TABLE BRANCH
-trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("append").save("SPARK_CATALOG.HOL_DB_{0}.HIST_TRX_{0}".format(username))
+trxBatchDf.write.format("iceberg").option("branch", "ingestion_branch").mode("append").save("SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}".format(username))
