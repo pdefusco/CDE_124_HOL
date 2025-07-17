@@ -93,7 +93,7 @@ def createTransactionData(spark, demo):
         try:
             print("CREATING CAR SALES DF...\n")
             dg = CarSalesDataGen(spark)
-            transactionsDf = dg.transactionsDataGen()
+            transactionsDf = dg.salesDataGen()
         except Exception as e:
             print("CREATING TRANSACTION DATA UNSUCCESSFUL")
             print('\n')
