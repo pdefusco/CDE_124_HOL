@@ -4,8 +4,8 @@
 
 ## Contenido
 
-1. [Desarrollo de Aplicaciones Spark](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-1-spark-application-development).  
-2. [Repositorios, Trabajos y Monitoreo en CDE](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-2-cde-repositories-jobs-and-monitoring).
+1. [Desarrollo de Aplicaciones Spark](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-1-spark-application-development).  
+2. [Repositorios, Trabajos y Monitoreo en CDE](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/02-development.md#lab-2-cde-repositories-jobs-and-monitoring).
 
 Prototiparemos y probaremos las operaciones de Iceberg Merge Into y de lectura incremental.
 
@@ -16,14 +16,14 @@ Prototiparemos y probaremos las operaciones de Iceberg Merge Into y de lectura i
 Clona el repositorio de GitHub en tu máquina local.
 
 ```
-git clone https://github.com/pdefusco/CDE_123_HOL.git
-cd CDE_123_HOL
+git clone https://github.com/pdefusco/CDE_124_HOL.git
+cd CDE_124_HOL
 ```
 
 Inicia el contenedor Docker.
 
 ```
-docker run -p 8888:8888 pauldefusco/cde123hol
+docker run -p 8888:8888 pauldefusco/cde124hol
 ```
 
 Abre el IDE JupyterLab en tu navegador copiando y pegando la URL proporcionada, como se muestra a continuación.
@@ -137,7 +137,7 @@ Los Repositorios CDE se usan para importar archivos y dependencias en Clústeres
 ```
 cde repository create --name sparkAppRepoDevUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
   --vcluster-endpoint <url-api-jobs-vc>
 ```
 
