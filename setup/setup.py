@@ -54,13 +54,14 @@ def parseProperties():
         print("PARSING JOB ARGUMENTS...")
         maxParticipants = sys.argv[1]
         storageLocation = sys.argv[2]
+        demo = sys.argv[3]
     except Exception as e:
         print("READING JOB ARG UNSUCCESSFUL")
         print('\n')
         print(f'caught {type(e)}: e')
         print(e)
 
-    return maxParticipants, storageLocation
+    return maxParticipants, storageLocation, demo
 
 
 def createSparkSession():
