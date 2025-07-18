@@ -248,7 +248,7 @@ def saveTransactionData(transactionsDf, storageLocation, username, demo):
     elif demo == "banking":
 
         try:
-            bankTransactionsDf. \
+            transactionsDf. \
                 write. \
                 format("json"). \
                 mode("overwrite"). \
