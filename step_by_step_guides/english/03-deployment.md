@@ -4,8 +4,8 @@
 
 ## Contents
 
-3. [Promote to higher env using API by replicating repo and redeploy](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-3-promote-to-higher-env-using-api-by-replicating-repo-and-redeploy)
-4. [Build Orchestration Pipeline with Airflow](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-4-build-orchestration-pipeline-with-airflow)
+3. [Promote to higher env using API by replicating repo and redeploy](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-3-promote-to-higher-env-using-api-by-replicating-repo-and-redeploy)
+4. [Build Orchestration Pipeline with Airflow](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-4-build-orchestration-pipeline-with-airflow)
 
 ## Lab 3. Promote to higher env using API by replicating repo and redeploy
 
@@ -17,7 +17,7 @@ Create and sync the same Git repo from the PRD Cluster. From now on, run the fol
 cde repository create \
   --name sparkAppRepoPrdUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
   --vcluster-endpoint <your-PRD-vc-jobs-api-url-here>
 ```
 
@@ -33,14 +33,14 @@ For example:
 cde repository create \
   --name sparkAppRepoPrdUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 ```
 cde repository sync \
   --name sparkAppRepoPrdUser001 \
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 Then create a CDE Spark Job leveraging the CDE repository as a dependency.
@@ -73,8 +73,8 @@ cde job create --name cde_spark_job_prd_user001 \
   --executor-cores 2 \
   --executor-memory "4g" \
   --application-file pyspark-app.py\
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1 \
-  --arg s3a://rapids-demo-buk-bb66b705/data \
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1 \
+  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/banking/20250717 \
   --arg user001
 ```
 
@@ -82,7 +82,7 @@ cde job create --name cde_spark_job_prd_user001 \
 cde job run --name cde_spark_job_prd_user001 \
   --executor-cores 4 \
   --executor-memory "2g" \
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 ![alt text](../../img/move-job.png)
@@ -135,13 +135,13 @@ For example:
 cde job create --name cde_spark_job_bronze_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://rapids-demo-buk-bb66b705/data \
+  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/banking/20250717 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
   --application-file de-pipeline/spark/001_Lakehouse_Bronze.py\
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 ```
@@ -153,20 +153,20 @@ cde job create --name cde_spark_job_silver_user001 \
   --executor-cores 2 \
   --executor-memory "4g" \
   --application-file de-pipeline/spark/002_Lakehouse_Silver.py\
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 ```
 cde job create --name cde_spark_job_gold_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://rapids-demo-buk-bb66b705/data \
+  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/banking/20250717 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
   --application-file de-pipeline/spark/003_Lakehouse_Gold.py\
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 In your editor, open the Airflow DAG "004_airflow_dag_git" and edit your username variable at line 54.
@@ -190,7 +190,7 @@ cde job create --name airflow-orchestration-user001 \
   --type airflow \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --dag-file de-pipeline/airflow/004_airflow_dag_git.py\
-  --vcluster-endpoint https://hwpg58sm.cde-l5vgkd5t.rapids-d.a465-9q4k.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://jk5j57pc.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
 ![alt text](../../img/jobs-cde.png)
