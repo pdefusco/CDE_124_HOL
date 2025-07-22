@@ -4,8 +4,8 @@
 
 ## Contenu
 
-3. [Promouvoir vers un environnement supérieur en utilisant l'API en répliquant le dépôt et en redéployant](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-3-promote-to-higher-env-using-api-by-replicating-repo-and-redeploy)
-4. [Construire un pipeline d'orchestration avec Airflow](https://github.com/pdefusco/CDE_123_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-4-build-orchestration-pipeline-with-airflow)
+3. [Promouvoir vers un environnement supérieur en utilisant l'API en répliquant le dépôt et en redéployant](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-3-promote-to-higher-env-using-api-by-replicating-repo-and-redeploy)
+4. [Construire un pipeline d'orchestration avec Airflow](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/03-deployment.md#lab-4-build-orchestration-pipeline-with-airflow)
 
 ## Lab 3. Promouvoir vers un environnement supérieur en utilisant l'API en répliquant le dépôt et en redéployant
 
@@ -17,7 +17,7 @@ Créez et synchronisez le même dépôt Git depuis le cluster PRD. Désormais, e
 cde repository create \
   --name sparkAppRepoPrdUser001 \
   --branch main \
-  --url https://github.com/pdefusco/CDE_123_HOL.git \
+  --url https://github.com/pdefusco/CDE_124_HOL.git \
   --vcluster-endpoint <your-PRD-vc-jobs-api-url-here>
 ```
 

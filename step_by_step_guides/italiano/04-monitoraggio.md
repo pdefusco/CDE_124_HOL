@@ -44,7 +44,7 @@ Seleziona l'esecuzione del job con la durata più lunga ed esplora la scheda Det
 
 ![alt text](../../img/details-3.png)
 
-Esaminando le metriche dell'esecuzione corrente e confrontandole con la baseline, sembra che circa il 20% del tempo l'applicazione stia eseguendo uno Spark Shuffle anomalo. Successivamente, apri il codice dell'applicazione Spark e prova a capire perché stia accadendo. Il codice si trova in ["observability/skewApp.py"](https://github.com/pdefusco/CDE_123_HOL/blob/main/observability/skewApp.py)
+Esaminando le metriche dell'esecuzione corrente e confrontandole con la baseline, sembra che circa il 20% del tempo l'applicazione stia eseguendo uno Spark Shuffle anomalo. Successivamente, apri il codice dell'applicazione Spark e prova a capire perché stia accadendo. Il codice si trova in ["observability/skewApp.py"](https://github.com/pdefusco/CDE_124_HOL/blob/main/observability/skewApp.py)
 
 #### Identificare la causa di un job Spark fallito in CDP Observability
 
