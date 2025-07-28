@@ -33,6 +33,8 @@ ADD Iceberg_TimeTravel_PySpark_banking.ipynb /home/cdeuser/Iceberg_TimeTravel_Py
 ADD Iceberg_TimeTravel_PySpark_manufacturing.ipynb /home/cdeuser/Iceberg_TimeTravel_PySpark_manufacturing.ipynb
 ADD pyspark-app.py /home/cdeuser/pyspark-app.py
 
+RUN chmod 777 /home/cdeuser/*
+
 EXPOSE 8888
 
 CMD ["python3", "-m", "jupyterlab", "--ip='0.0.0.0'", "--port=8888", "--allow-root"]
