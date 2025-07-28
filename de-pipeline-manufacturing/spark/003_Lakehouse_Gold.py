@@ -87,7 +87,7 @@ incReadDf.show()
 #-----------------------------------------------------
 
 ### LOAD CUSTOMER DATA REFINED
-custDf = spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.HIST_SALES_REFINED_{0}".format(username))
+custDf = spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.PII_TABLE_REFINED_{0}".format(username))
 
 print("Cust DF Schema: ")
 custDf.printSchema()
