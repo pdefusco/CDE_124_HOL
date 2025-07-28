@@ -108,7 +108,7 @@ distanceDf = distanceDf.filter(distanceDf.trx_dist_from_home > 50)
 
 #distanceDf.show()
 
-gold_cols = ['transaction_amount', 'transaction_currency', 'transaction_type', 'trx_dist_from_home', 'name', 'email', 'bank_country', 'bank_account_number']
+gold_cols = ['transaction_amount', 'transaction_currency', 'transaction_type', 'trx_dist_from_home', 'name', 'email', 'bank_country']
 
 distanceDf.select(*gold_cols).writeTo("spark_catalog.CAR_SALES_{0}.GOLD_TABLE_{0}".format(username)).using("iceberg").createOrReplace()
 
