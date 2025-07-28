@@ -111,7 +111,7 @@ branchSnapshotId = spark.sql("SELECT snapshot_id FROM SPARK_CATALOG.CAR_SALES_{0
 
 # USE THE PROCEDURE TO CHERRY-PICK THE SNAPSHOT
 # THIS IMPLICITLY SETS THE CURRENT TABLE STATE TO THE STATE DEFINED BY THE CHOSEN PRIOR SNAPSHOT ID
-spark.sql("CALL iceberg.system.set_current_snapshot('SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}',{1})".format(username, branchSnapshotId))
+spark.sql("CALL iceberg.system.cherrypick_snapshot('SPARK_CATALOG.CAR_SALES_{0}.HIST_SALES_{0}',{1})".format(username, branchSnapshotId))
 
 # DROP BRANCH
 #try:
