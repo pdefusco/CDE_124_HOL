@@ -135,12 +135,12 @@ For example:
 cde job create --name cde_spark_job_bronze_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/banking/20250717 \
+  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/manufacturing/20250717 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
-  --application-file de-pipeline-bank/spark/001_Lakehouse_Bronze.py\
+  --application-file de-pipeline-manufacturing/spark/001_Lakehouse_Bronze.py\
   --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
@@ -152,7 +152,7 @@ cde job create --name cde_spark_job_silver_user001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
-  --application-file de-pipeline-bank/spark/002_Lakehouse_Silver.py\
+  --application-file de-pipeline-manufacturing/spark/002_Lakehouse_Silver.py\
   --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
@@ -160,12 +160,12 @@ cde job create --name cde_spark_job_silver_user001 \
 cde job create --name cde_spark_job_gold_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/banking/20250717 \
+  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/manufacturing/20250717 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
-  --application-file de-pipeline-bank/spark/003_Lakehouse_Gold.py\
+  --application-file de-pipeline-manufacturing/spark/003_Lakehouse_Gold.py\
   --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
@@ -189,7 +189,7 @@ For example:
 cde job create --name airflow-orchestration-user001 \
   --type airflow \
   --mount-1-resource sparkAppRepoPrdUser001 \
-  --dag-file de-pipeline-bank/airflow/004_airflow_dag_git.py\
+  --dag-file de-pipeline-manufacturing/airflow/004_airflow_dag_git.py\
   --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
 ```
 
