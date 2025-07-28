@@ -92,7 +92,7 @@ custDf = spark.sql("SELECT * FROM spark_catalog.CAR_SALES_{0}.PII_TABLE_REFINED_
 print("Cust DF Schema: ")
 custDf.printSchema()
 
-joinDf = incReadDf.join(custDf, custDf.CREDIT_CARD_NUMBER == incReadDf.credit_card_number, 'inner')
+joinDf = incReadDf.join(custDf, custDf.BANK_ACCOUNT_NUMBER == incReadDf.BANK_ACCOUNT_NUMBER, 'inner')
 
 distanceFunc = F.udf(lambda arr: (((arr[2]-arr[0])**2)+((arr[3]-arr[1])**2)**(1/2)), FloatType())
 distanceDf = joinDf.withColumn("trx_dist_from_home", distanceFunc(F.array("latitude", "longitude",
