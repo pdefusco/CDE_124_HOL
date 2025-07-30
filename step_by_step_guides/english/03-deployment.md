@@ -34,13 +34,13 @@ cde repository create \
   --name sparkAppRepoPrdUser001 \
   --branch main \
   --url https://github.com/pdefusco/CDE_124_HOL.git \
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 ```
 cde repository sync \
   --name sparkAppRepoPrdUser001 \
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 Then create a CDE Spark Job leveraging the CDE repository as a dependency.
@@ -73,7 +73,7 @@ cde job create --name cde_spark_job_prd_user001 \
   --executor-cores 2 \
   --executor-memory "4g" \
   --application-file pyspark-app.py\
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1 \
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1 \
   --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/banking/20250717 \
   --arg user001
 ```
@@ -82,7 +82,7 @@ cde job create --name cde_spark_job_prd_user001 \
 cde job run --name cde_spark_job_prd_user001 \
   --executor-cores 4 \
   --executor-memory "2g" \
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 ![alt text](../../img/move-job.png)
@@ -135,13 +135,13 @@ For example:
 cde job create --name cde_spark_job_bronze_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/manufacturing/20250717 \
+  --arg s3a://pdf-jul-25-buk-278dd34b/data//bank/20250729 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
-  --application-file de-pipeline-manufacturing/spark/001_Lakehouse_Bronze.py\
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --application-file de-pipeline-bank/spark/001_Lakehouse_Bronze.py\
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 ```
@@ -152,21 +152,21 @@ cde job create --name cde_spark_job_silver_user001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
-  --application-file de-pipeline-manufacturing/spark/002_Lakehouse_Silver.py\
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --application-file de-pipeline-bank/spark/002_Lakehouse_Silver.py\
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 ```
 cde job create --name cde_spark_job_gold_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://vw-hol-buk-3c3eeffe/data/cde_hol/manufacturing/20250717 \
+  --arg s3a://pdf-jul-25-buk-278dd34b/data//bank/20250729 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
   --executor-memory "4g" \
-  --application-file de-pipeline-manufacturing/spark/003_Lakehouse_Gold.py\
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --application-file de-pipeline-bank/spark/003_Lakehouse_Gold.py\
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 In your editor, open the Airflow DAG "004_airflow_dag_git" and edit your username variable at line 54.
@@ -189,8 +189,8 @@ For example:
 cde job create --name airflow-orchestration-user001 \
   --type airflow \
   --mount-1-resource sparkAppRepoPrdUser001 \
-  --dag-file de-pipeline-manufacturing/airflow/004_airflow_dag_git.py\
-  --vcluster-endpoint https://kwpwcb6z.cde-8vjh6px7.vw-hol-c.oldk-i9ly.a4.cloudera.site/dex/api/v1
+  --dag-file de-pipeline-bank/airflow/004_airflow_dag_git.py\
+  --vcluster-endpoint https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1
 ```
 
 ![alt text](../../img/jobs-cde.png)
