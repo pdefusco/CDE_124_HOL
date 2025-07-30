@@ -71,19 +71,19 @@ Before proceeding, make sure to update your ~/.cde/config.yaml with your Spark 3
 Deployment script command template:
 
 ```
-% ./setup/deploy_hol_resources.sh <cdp-workload-user>
+% ./setup/deploy_hol_resources.sh <cdp-workload-user> <vcluster-endpoint> <demo>
 ```
 
 For example:
 
 ```
 #AWS
-% ./setup/deploy_hol_resources.sh pauldefusco
+% ./setup/deploy_hol_resources.sh pauldefusco https://55f9q9ww.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1 bank
 ```
 
 ```
 #Azure
-% ./setup/deploy_hol_resources.sh pauldefusco
+% ./setup/deploy_hol_resources.sh pauldefusco https://k5hzst9x.cde-jhnkv684.pdf-jul.a465-9q4k.cloudera.site/dex/api/v1 manufacturing
 ```
 
 #### 3. Airflow Configurations

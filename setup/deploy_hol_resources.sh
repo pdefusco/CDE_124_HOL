@@ -1,6 +1,8 @@
 #!/bin/sh
 
 cde_user=$1
+vcluster_endpoint=$2
+demo=$3
 
 cde_user_formatted=${cde_user//[-._]/}
 d=$(date)
@@ -13,13 +15,34 @@ printf "${fmt}" "performed by CDP User:" "${cde_user}"
 echo "##########################################################"
 
 echo "CREATE SPARK FILES SHARED RESOURCE"
-cde resource delete --name Spark-Files-Shared
-cde resource create --type files --name Spark-Files-Shared
-cde resource upload --name Spark-Files-Shared --local-path de-pipeline/spark/parameters.conf --local-path de-pipeline/spark/utils.py
+cde resource delete --name Spark-Files-Shared \
+  --vcluster-endpoint $vcluster_endpoint
+
+cde resource create \
+  --type files \
+  --name Spark-Files-Shared \
+  --vcluster-endpoint $vcluster_endpoint
+
+cde resource upload \
+  --name Spark-Files-Shared \
+  --local-path de-pipeline-$demo/spark/parameters.conf \
+  --local-path de-pipeline-$demo/spark/utils.py \
+  --vcluster-endpoint $vcluster_endpoint
+
 echo "CREATE PYTHON ENVIRONMENT SHARED RESOURCE"
-cde resource delete --name Python-Env-Shared
-cde resource create --type python-env --name Python-Env-Shared
-cde resource upload --name Python-Env-Shared --local-path de-pipeline/spark/requirements.txt
+cde resource delete \
+  --name Python-Env-Shared \
+  --vcluster-endpoint $vcluster_endpoint
+
+cde resource create \
+  --type python-env \
+  --name Python-Env-Shared \
+  --vcluster-endpoint $vcluster_endpoint
+
+cde resource upload \
+  --name Python-Env-Shared \
+  --local-path de-pipeline-$demo/spark/requirements.txt \
+  --vcluster-endpoint $vcluster_endpoint
 
 function loading_icon_env() {
   local loading_animation=( '—' "\\" '|' '/' )
@@ -30,7 +53,7 @@ function loading_icon_env() {
   trap "tput cnorm" EXIT
 
   while true; do
-    build_status=$(cde resource describe --name Python-Env-Shared | jq -r '.status')
+    build_status=$(cde resource describe --name Python-Env-Shared --vcluster-endpoint $vcluster_endpoint | jq -r '.status')
     if [[ $build_status == $"ready" ]]; then
       echo "Python Env Build Has Completed"
       break
