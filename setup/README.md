@@ -54,7 +54,7 @@ You must always create data in the data directory. For example:
 
 ```
 #AWS
-% ./setup/new_deploy_hol.sh pauldefusco 10 s3a://goes-se-sandbox/data/cde-124-hol banking
+% ./setup/new_deploy_hol.sh pauldefusco 10 s3a://goes-se-sandbox/data/cde-124-hol bank
 ```
 
 ```
