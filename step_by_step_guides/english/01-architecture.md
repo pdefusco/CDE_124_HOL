@@ -6,17 +6,17 @@ In this section you will learn about CDE's flexible architecture and its main co
 
 ## Table of Contents
 
-* [Introduction to the CDE Service](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#introduction-to-the-cde-service)
-  * [CDP Environment](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#cdp-environment)
-  * [CDP Service](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#cde-service)
-  * [Virtual Cluster](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#virtual-cluster)
-  * [CDE Jobs](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#jobs)
-  * [CDE Resource](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#resource)
-  * [Job Run](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#job-run)
-  * [CDE Sessions](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#cde-session)
-  * [Apache Iceberg](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#apache-iceberg)
-  * [CDE User Interface](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#cde-user-interface)
-* [Summary](https://github.com/pdefusco/CDE119_ACE_WORKSHOP/blob/main/step_by_step_guides/english/part01_cde_architecture.md#summary)
+* [Introduction to the CDE Service](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#introduction-to-the-cde-service)
+  * [CDP Environment](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#cdp-environment)
+  * [CDE Service](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#cde-service)
+  * [Virtual Cluster](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#cde-virtual-cluster)
+  * [CDE Jobs](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#jobs)
+  * [CDE Resource](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#resource)
+  * [Job Run](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#job-run)
+  * [CDE Sessions](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#cde-session)
+  * [Apache Iceberg](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#apache-iceberg)
+  * [CDE User Interface](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#cde-user-interface)
+* [Summary](https://github.com/pdefusco/CDE_124_HOL/blob/main/step_by_step_guides/english/01-architecture.md#summary)
 
 ## Introduction to the CDE Service
 
