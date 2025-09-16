@@ -215,7 +215,7 @@ cde job create --name cde_spark_iceberg_job_user001 \
   --executor-memory "4g" \
   --application-file pyspark-app.py\
   --vcluster-endpoint https://dvb8pnfr.cde-kv8djp54.pdf-sep.a465-9q4k.cloudera.site/dex/api/v1 \
-  --arg s3a://pdf-jul-25-buk-278dd34b/data//bank/20250729 \
+  --arg s3a://pdf-sep-buk-c3d8eaaa/data/cde-124-hol/bank/20250915 \
   --arg user001
 ```
 

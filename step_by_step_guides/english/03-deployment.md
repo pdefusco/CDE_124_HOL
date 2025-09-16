@@ -135,7 +135,7 @@ For example:
 cde job create --name cde_spark_job_bronze_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://pdf-jul-25-buk-278dd34b/data//bank/20250729 \
+  --arg s3a://pdf-sep-buk-c3d8eaaa/data/cde-124-hol/bank/20250915 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
@@ -160,7 +160,7 @@ cde job create --name cde_spark_job_silver_user001 \
 cde job create --name cde_spark_job_gold_user001 \
   --type spark \
   --arg user001 \
-  --arg s3a://pdf-jul-25-buk-278dd34b/data//bank/20250729 \
+  --arg s3a://pdf-sep-buk-c3d8eaaa/data/cde-124-hol/bank/20250915 \
   --mount-1-resource sparkAppRepoPrdUser001 \
   --python-env-resource-name Python-Env-Shared \
   --executor-cores 2 \
